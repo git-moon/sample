@@ -2,10 +2,10 @@ package com.example.sample;
 
 import java.time.LocalDateTime;
 
-import com.example.sample.domain.main.auth.Auth;
 import com.example.sample.domain.main.board.Board;
-import com.example.sample.persistence.auth.AuthRepository;
+import com.example.sample.domain.main.role.Role;
 import com.example.sample.persistence.board.BoardRepository;
+import com.example.sample.persistence.role.RoleRepository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,29 +15,29 @@ import org.springframework.boot.test.context.SpringBootTest;
 class myTests {
     
     @Autowired
-    private AuthRepository authRepository;
+    private RoleRepository roleRepository;
     @Autowired
     private BoardRepository boardRepository;
 
     @Test
     public void createAuthTest() {
-        Auth authUser = Auth.builder()
-            .authority("ROLE_USER")
+        Role roleUser = Role.builder()
+            .roleName("ROLE_USER")
             .description("아무권한없음")
             .build();
         
-        Auth authAdmin = Auth.builder()
-            .authority("ROLE_ADMIN")
+        Role roleAdmin = Role.builder()
+            .roleName("ROLE_ADMIN")
             .description("전지전능")
             .build();
         
-        authRepository.save(authUser);
-        authRepository.save(authAdmin);
+        roleRepository.save(roleUser);
+        roleRepository.save(roleAdmin);
     }
 
     @Test
     public void createBoardTest() {
-        for (int i = 1; i < 11; i++) {
+        for (int i = 1; i < 21; i++) {
             Board board = Board.builder()
                 .contents("생성 테스트" + i)
                 .createdTime(LocalDateTime.now())
