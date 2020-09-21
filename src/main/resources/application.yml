@@ -1,0 +1,15 @@
+spring:
+  profiles:
+    active: local
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:33308/sample?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: sample1234
+  jpa:
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      format_sql: true
+      ddl-auto: update
