@@ -37,7 +37,7 @@ class myTests {
 
     @Test
     public void createBoardTest() {
-        for (int i = 1; i < 21; i++) {
+        for (int i = 1; i < 51; i++) {
             Board board = Board.builder()
                 .contents("생성 테스트" + i)
                 .createdTime(LocalDateTime.now())
