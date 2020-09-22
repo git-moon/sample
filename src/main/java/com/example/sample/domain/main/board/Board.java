@@ -29,6 +29,12 @@ public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idx;
+    @Column(name = "member_idx", nullable = false)
+    private Integer memberIdx;
+    @Column(name = "title", nullable = false)
+    private String title;
+    @Column(name = "sub_title")
+    private String subTitle;
     @Column(name = "contents", nullable = false)
     private String contents;
     @Column(name = "created_time", nullable = false)
