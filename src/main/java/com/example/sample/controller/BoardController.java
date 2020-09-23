@@ -1,18 +1,25 @@
 package com.example.sample.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.example.sample.domain.main.board.Board;
 import com.example.sample.dto.board.BoardDto;
+import com.example.sample.dto.board.BoardReqDto;
+import com.example.sample.lib.Paging;
+import com.example.sample.lib.PagingResponse;
 import com.example.sample.service.board.BoardService;
 import com.example.sample.utils.ModelMapperUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -28,10 +35,16 @@ public class BoardController {
     private BoardService boardService;
 
     @GetMapping()
-    public Page<BoardDto> index(Pageable pageable) throws Exception {
-        Page<Board> boards = boardService.getBoards(pageable);
-        System.out.println(boards);
-        return null;
+    public PagingResponse<BoardDto> index(BoardReqDto boardReqDto) throws Exception {
+        Page<Board> pageData = boardService.getBoards(boardReqDto);
+        List<Board> boards = pageData.getContent();
+        Paging paging = Paging.builder()
+            .page(boardReqDto.getPage())
+            .size(boardReqDto.getSize())
+            .totalCount((int) pageData.getTotalElements())
+            .build();
+        PagingResponse<BoardDto> resp = new PagingResponse<BoardDto>(paging, boards.stream().map(BoardDto::of).collect(Collectors.toList()));
+        return resp;
     }
 
     @GetMapping(value = "/{idx}")

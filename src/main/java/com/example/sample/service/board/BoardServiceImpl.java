@@ -1,15 +1,14 @@
 package com.example.sample.service.board;
 
 import java.time.LocalDateTime;
-import java.util.List;
-
 import com.example.sample.domain.main.board.Board;
+import com.example.sample.dto.board.BoardReqDto;
 import com.example.sample.persistence.board.BoardRepository;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -43,8 +42,9 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public Page<Board> getBoards(Pageable pageable) {
-        Page<Board> boards = boardRepository.findAllByOrderByIdxDesc(pageable);
+	public Page<Board> getBoards(BoardReqDto boardReqDto) {
+		PageRequest pageRequest = PageRequest.of(boardReqDto.getPage()-1, boardReqDto.getSize());
+        Page<Board> boards = boardRepository.findAllByOrderByIdxDesc(pageRequest);
 		return boards;
 	}
 
